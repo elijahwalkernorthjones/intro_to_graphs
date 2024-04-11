@@ -29,6 +29,23 @@ class FriendGraph {
             this.setFriends(person, friend);
         }
     }
+    areConnected(person1, person2) {
+        let toVisitQueue = [person1];
+        let seen = new Set(toVisitQueue)
+        while(toVisitQueue.length){
+            let currentPerson = toVisitQueue.shift();
+
+            if(currentPerson === person2) return true;
+
+            for (let neighbor of currentPerson.adjacent) {
+                if(!seen.has(neighbor)){
+                    toVisitQueue.push(neighbor);
+                    seen.add(neighbor);
+                }
+            }
+        } 
+        return false;
+    }
 }
 
 
@@ -41,6 +58,16 @@ const grandpa = new PersonNode("grandpa simpson")
 
 const friends = new FriendGraph();
 friends.addPeople([homer, marge, maggie, lisa, grandpa]);
+
+// ---------------------------------
+//node island
+const moe = new PersonNode("moe");
+const barney = new PersonNode("barney");
+const lennie = new PersonNode("lennie");
+
+const friendIsland = new FriendGraph();
+friendIsland.addPeople([moe, barney, lennie]);
+friendIsland.setMultipleFriends(moe, [barney, lennie]);
 
 //connection of adjacency conditions
 //set multiple friends at once. 
